@@ -38,7 +38,6 @@ public class View1 extends javax.swing.JFrame {
         this.passwordSettings(v2);
         
         if(!dockerController.isDockerInstalled){
-            System.out.println("Está instalado");
             dockerController.installDocker();
         }
     }
