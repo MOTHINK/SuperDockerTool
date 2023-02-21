@@ -5,6 +5,8 @@
 package view;
 
 import controller.DockerController;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Utils;
@@ -13,21 +15,14 @@ import utils.Utils;
  *
  * @author mo22
  */
-public class View3 extends javax.swing.JFrame {
+public class View3 extends javax.swing.JFrame implements Runnable {
 
+    private String process = "";
     /**
      * Creates new form View3
      */
     public View3(Utils utils, DockerController dockerController, View1 aThis) {
         initComponents();
-        for(int i = 0;i < 10;i++){
-            try {
-                Thread.sleep(1000);
-                this.installProcessText.setText(this.installProcessText.getText()+"\n"+" installing");
-            } catch (InterruptedException ex) {
-                Logger.getLogger(View3.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
     /**
@@ -40,13 +35,18 @@ public class View3 extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        installProcessText = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        InstallProcessText = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 153));
 
-        installProcessText.setText("Installing process:");
+        InstallProcessText.setEditable(false);
+        InstallProcessText.setBackground(new java.awt.Color(0, 102, 102));
+        InstallProcessText.setColumns(20);
+        InstallProcessText.setRows(5);
+        jScrollPane1.setViewportView(InstallProcessText);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -54,15 +54,15 @@ public class View3 extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(installProcessText)
-                .addContainerGap(762, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 861, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(installProcessText)
-                .addContainerGap(533, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -78,8 +78,8 @@ public class View3 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -87,7 +87,21 @@ public class View3 extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel installProcessText;
+    private javax.swing.JTextArea InstallProcessText;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        for(int i = 0;i < 20;i++){
+            try {
+                this.process+="Installing " + i +"%" + System.lineSeparator();
+                this.InstallProcessText.setText(process);
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(View3.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }

@@ -171,6 +171,8 @@ public class View1 extends javax.swing.JFrame {
 
     private void InstallDockerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InstallDockerButtonActionPerformed
         View3 v3 = new View3(utils, dockerController, this);
+        Thread tr = new Thread(v3);
+        tr.start();
         this.centreWindowAndShow(v3);
     }//GEN-LAST:event_InstallDockerButtonActionPerformed
 
