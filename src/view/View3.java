@@ -16,13 +16,14 @@ import utils.Utils;
  * @author mo22
  */
 public class View3 extends javax.swing.JFrame implements Runnable {
-
+    private DockerController dockerController;
     private String process = "";
     /**
      * Creates new form View3
      */
     public View3(Utils utils, DockerController dockerController, View1 aThis) {
         initComponents();
+        this.dockerController = dockerController;
     }
 
     /**
@@ -91,9 +92,12 @@ public class View3 extends javax.swing.JFrame implements Runnable {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
+    
+    
     @Override
     public void run() {
+        dockerController.uninstallDocker(this.InstallProcessText);
+        /*
         for(int i = 0;i < 20;i++){
             try {
                 this.process+="Installing " + i +"%" + System.lineSeparator();
@@ -103,5 +107,6 @@ public class View3 extends javax.swing.JFrame implements Runnable {
                 Logger.getLogger(View3.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        */
     }
 }

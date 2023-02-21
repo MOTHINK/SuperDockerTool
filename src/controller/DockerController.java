@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextArea;
 import utils.AESEncryptionDecryption;
 
 /**
@@ -21,8 +22,8 @@ import utils.AESEncryptionDecryption;
  * @author mo22
  */
 public class DockerController {
-    private static final String FIND_DOCKER_SH_COMMAND = "mkdir hola.txt"; // NEED TO CHANGE
     private static final String GET_DOCKER_CONTAINERS = "sudo -S docker images | tail -n +2";
+    private static final String UNDO_DOCKER = "sudo -S apt-get remove docker docker-engine docker.io containerd runc";
     private static final String GET_DOCKER_VERSION = "sudo -S docker --version";
     private static final String GET_USER_SYSTEM_SH = "whoami";
     
@@ -91,6 +92,7 @@ public class DockerController {
             while ((line = reader.readLine()) != null) {
                 output.add(line);
             }
+            System.out.println(output);
         } catch (IOException ex) {
             Logger.getLogger(DockerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -148,6 +150,23 @@ public class DockerController {
            this.isDockerInstalled = true;
        }
        return correct;
+    }
+    
+    
+    public boolean uninstallDocker(JTextArea installProcessText){
+        boolean deleted = false;
+        ArrayList<String> output = new ArrayList<String>();
+        try {
+            BufferedReader reader = this.commandExec.executeCommandSystem(this.sysPwd + DockerController.GET_DOCKER_CONTAINERS);
+            String line;
+            while ((line = reader.readLine()) != null) {
+                installProcessText.setText(line);
+                output.add(line);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(DockerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return deleted;
     }
     
     public boolean installDocker(){
